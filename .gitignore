@@ -1,0 +1,8 @@
+.idea
+.venv
+.env
+bot.zip
+chat_filter.py
+logs.txt
+__pycache__/
+.DS_Store
