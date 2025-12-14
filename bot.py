@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 from handlers.user import user as user_router
 from handlers.admin import admin as admin_router
+from handlers.group import group as group_router
 
 from middlewares.logs import LoggingMiddleware
 from middlewares.ban_words import BannWordsMiddleware
@@ -22,12 +23,16 @@ router.message.filter(MagicData(F.maintenance_mode.is_(True)))
 router.callback_query.filter(MagicData(F.maintenance_mode.is_(True)))
 router.inline_query.filter(MagicData(F.maintenance_mode.is_(True)))
 
-# user_router.message.middleware(LoggingMiddleware())
+user_router.message.middleware(LoggingMiddleware())
+user_router.callback_query.middleware(LoggingMiddleware())
 # user_router.message.middleware(BannWordsMiddleware())
 # user_router.message.middleware(SubscribeMiddleware(-1003567272004, bot))
 # admin_router.message.middleware(LoggingMiddleware())
 
-dp.include_routers(router, user_router, admin_router)
+dp.include_routers(
+	router, user_router,
+	admin_router, group_router
+)
 
 @router.message()
 async def maintenance_handler(message: Message):
@@ -35,7 +40,7 @@ async def maintenance_handler(message: Message):
 
 
 async def main():
-	await dp.start_polling(bot)
+	await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 
 
 if __name__ == '__main__':

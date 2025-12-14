@@ -23,4 +23,5 @@ async def block_user(message: Message):
 async def warn(message: Message):
 	await message.answer('Вы вынесли предупреждение!')
 
-
+# Задание
+# Реализовать проверку на администратора 3-x хендлеров (сверху) через Middleware
