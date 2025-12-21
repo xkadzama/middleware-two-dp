@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from handlers.user import user as user_router
 from handlers.admin import admin as admin_router
 from handlers.group import group as group_router
+from handlers.restaraunt import rest as rest_router
 
 from middlewares.logs import LoggingMiddleware
 from middlewares.ban_words import BannWordsMiddleware
@@ -31,7 +32,8 @@ user_router.callback_query.middleware(LoggingMiddleware())
 
 dp.include_routers(
 	router, user_router,
-	admin_router, group_router
+	admin_router, group_router,
+	rest_router
 )
 
 @router.message()
